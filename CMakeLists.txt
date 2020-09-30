@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(PROGRAM_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories(.)
@@ -45,12 +46,21 @@ target_link_libraries(kkshell PRIVATE Qt5::Core Qt5::Widgets ${THIRD_PARTY_LIBS}
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
+
 INSTALL(TARGETS kkshell
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        PERMISSIONS ${PROGRAM_PERMISSIONS}
         )
 
 install(FILES resources/kkshell.desktop
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications/)
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications/
+        PERMISSIONS ${PROGRAM_PERMISSIONS})
+
 
 install(FILES resources/images/kkshell.png
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/128x128/apps)
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/128x128/apps
+        PERMISSIONS ${PROGRAM_PERMISSIONS})
+
+install(FILES resources/kkshell.desktop
+	DESTINATION $ENV{HOME}/Desktop
+    PERMISSIONS ${PROGRAM_PERMISSIONS} SETUID SETGID)
